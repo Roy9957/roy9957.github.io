@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Google Sign-In with Firebase</title>
+  <!-- Font Awesome CDN for Google logo -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <script type="module">
+    // Firebase SDK imports
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/11.0.2/firebase-auth.js";
+
+    // Firebase configuration object
+    const firebaseConfig = {
+      apiKey: "AIzaSyAfRqlmZ1dhxchlbV7kUSKA7YKK2UMcB2c",
+      authDomain: "pixelora-52447.firebaseapp.com",
+      databaseURL: "https://pixelora-52447-default-rtdb.asia-southeast1.firebasedatabase.app",
+      projectId: "pixelora-52447",
+      storageBucket: "pixelora-52447.firebasestorage.app",
+      messagingSenderId: "884362596684",
+      appId: "1:884362596684:web:ac2863e42454050d2e7fe9",
+      measurementId: "G-87192GG2Q0"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Function to handle Google Sign-In
+    function handleSignIn() {
+      const provider = new GoogleAuthProvider();
+
+      // Trigger sign-in process
+      signInWithPopup(auth, provider)
+        .then((result) => {
+          const user = result.user;
+          console.log("User Info:", user);
+          alert(`Welcome, ${user.displayName}`);
+
+          // Redirect to the specified URL after successful login
+          setTimeout(() => {
+            window.location.href = "https://roy9957.github.io/MOBE-GAME/";  // Adjust URL as per your requirement
+          }, 1000);  // 1 second delay for smooth redirection
+        })
+        .catch((error) => {
+          // Error handling
+          const errorCode = error.code;
+          const errorMessage = error.message;
+          console.error("Error Code:", errorCode);
+          console.error("Error Message:", errorMessage);
+          alert("Login failed! Please try again.");
+        });
+    }
+
+    // Event listener for the sign-in button
+    document.addEventListener("DOMContentLoaded", () => {
+      const signInButton = document.getElementById("google-signin");
+
+      signInButton.addEventListener("click", handleSignIn);
+    });
+  </script>
+  <style>
+    /* Styling the Google sign-in button */
+    #google-signin {
+      padding: 12px 25px;
+      font-size: 18px;
+    
+      background-color: #4285F4;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      transition: all 0.3s ease;
+    }
+    #google-signin:hover {
+      background-color: #357ae8;
+    }
+    .google-icon {
+      margin-right: 10px;
+    }
+  </style>
+</head>
+<body>
+  <div style="text-align: center; margin-top: 50px;">
+    <button id="google-signin">
+      <!-- Font Awesome Google Logo -->
+      <i class="fab fa-google google-icon"></i> Sign In with Google
+    </button>
+  </div>
+</body>
+</html>
